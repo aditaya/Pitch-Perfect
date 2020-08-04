@@ -15,7 +15,7 @@ import AVFoundation
 extension PlaySoundViewController: AVAudioPlayerDelegate {
     
     
- // MARK: - Alerts
+    // MARK: - Alerts
     struct Alerts {
         
         static let DismissAlert = "Dismiss"
@@ -28,7 +28,7 @@ extension PlaySoundViewController: AVAudioPlayerDelegate {
         static let AudioRecordingError = "Audio Recording Error"
         static let AudioFileError = "Audio File Error"
         static let AudioEngineError = "Audio Engine Error"
-    
+        
     }
     
     // MARK: - PlayingState
@@ -40,25 +40,24 @@ extension PlaySoundViewController: AVAudioPlayerDelegate {
     func setupAudio() {
         
         do {
-            
             audioFile = try AVAudioFile(forReading: recordedAudioURL as URL)
         } catch {
             showAlert(Alerts.AudioFileError, messages: String(describing: error))
         }
         
-       
+        
     }
- // MARK: - Play Sound
+    // MARK: - Play Sound
     
     func playSound(rate: Float? = nil, pitch: Float? = nil, echo: Bool = false, reverb: Bool = false) {
         
         audioEngine = AVAudioEngine()
         
-  // node for playing audio
+        // node for playing audio
         audioPlayerNode = AVAudioPlayerNode()
         audioEngine.attach(audioPlayerNode)
         
-    // node for adjusting Rate / Pitch
+        // node for adjusting Rate / Pitch
         let changeRatePitchNode = AVAudioUnitTimePitch()
         if let pitch = pitch {
             changeRatePitchNode.pitch = pitch
@@ -69,19 +68,19 @@ extension PlaySoundViewController: AVAudioPlayerDelegate {
             changeRatePitchNode.rate = rate
         }
         audioEngine.attach(changeRatePitchNode)
-    
-// node for echo
+        
+        // node for echo
         let echoNode = AVAudioUnitDistortion()
         echoNode.loadFactoryPreset(.multiEcho1)
         audioEngine.attach(echoNode)
         
-// node for echo
+        // node for echo
         let reverbNode = AVAudioUnitReverb()
         reverbNode.loadFactoryPreset(.cathedral)
         reverbNode.wetDryMix = 50
         audioEngine.attach(reverbNode)
         
-// connect nodes
+        // connect nodes
         if echo == true && reverb == true {
             connectAudioNodes(audioPlayerNode, changeRatePitchNode, echoNode, reverbNode, audioEngine.outputNode)
             
@@ -90,21 +89,21 @@ extension PlaySoundViewController: AVAudioPlayerDelegate {
         } else if reverb == true {
             connectAudioNodes(audioPlayerNode, changeRatePitchNode, reverbNode, audioEngine.outputNode)
         } else {
-           connectAudioNodes(audioPlayerNode, changeRatePitchNode, audioEngine.outputNode)
+            connectAudioNodes(audioPlayerNode, changeRatePitchNode, audioEngine.outputNode)
         }
-       // schedule to play and start the engine!
+        // schedule to play and start the engine!
         
         audioPlayerNode.stop()
         audioPlayerNode.scheduleFile(audioFile, at: nil) {
             
-          var delayInSeconds: Double = 0
+            var delayInSeconds: Double = 0
             
             if let lastRenderTime = self.audioPlayerNode.lastRenderTime, let playerTime = self.audioPlayerNode.playerTime(forNodeTime: lastRenderTime) {
                 
                 if let rate = rate {
                     delayInSeconds = Double(self.audioFile.length - playerTime.sampleTime) / Double(self.audioFile.processingFormat.sampleRate) / Double(rate)
                 } else {
-                  delayInSeconds = Double(self.audioFile.length - playerTime.sampleTime) / Double(self.audioFile.processingFormat.sampleRate)
+                    delayInSeconds = Double(self.audioFile.length - playerTime.sampleTime) / Double(self.audioFile.processingFormat.sampleRate)
                 }
             }
             
@@ -126,8 +125,8 @@ extension PlaySoundViewController: AVAudioPlayerDelegate {
         
         
         
-    
-}
+        
+    }
     
     
     @objc func stopAudio() {
@@ -161,11 +160,11 @@ extension PlaySoundViewController: AVAudioPlayerDelegate {
         
         switch(playState) {
             case .playing:
-            setPlayButtonsEnabled(false)
-            stopButton.isEnabled = true
+                setPlayButtonsEnabled(false)
+                stopButton.isEnabled = true
             case .notPlaying:
-            setPlayButtonsEnabled(true)
-            stopButton.isEnabled = false
+                setPlayButtonsEnabled(true)
+                stopButton.isEnabled = false
         }
     }
     

@@ -53,9 +53,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="agU-VR-Oga"/>
                     <connections>
-                        <outlet property="RecordingLabel" destination="mbu-2d-qGx" id="1CF-2a-ffC"/>
                         <outlet property="recordButton" destination="5J5-yY-62N" id="tX7-76-bHT"/>
-                        <outlet property="recordingLabel" destination="8bC-Xf-vdC" id="SWX-Ad-AGq"/>
+                        <outlet property="recordingLabel" destination="mbu-2d-qGx" id="hjS-g3-luA"/>
                         <outlet property="stopRecordingButton" destination="pkr-hX-P7q" id="gay-fk-poz"/>
                         <segue destination="QdC-xy-Xea" kind="show" identifier="stopRecording" id="jjc-Ld-vzP"/>
                     </connections>

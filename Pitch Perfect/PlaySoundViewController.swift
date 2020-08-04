@@ -26,37 +26,37 @@ class PlaySoundViewController: UIViewController {
     var stopTimer: Timer!
     
     enum ButtonType: Int { case slow = 0, fast, chipmunk, vader, echo, reverb}
-  
+    
     
     // MARK: - Play Sound Button Pressed
     @IBAction func playSoundForButton(_ sender: UIButton) {
-        switch(ButtonType(rawValue: sender.tag)) {
-            
-            case .slow: playSound(rate: 0.5)
-            case .fast: playSound(rate: 1.5)
-            case .chipmunk: playSound(pitch: 1000)
-            case .vader: playSound(pitch: -1000)
-            case .echo: playSound(echo: true)
-            case .reverb: playSound(reverb: true)
-          
-            case .none: break
-           
-        }
+         switch(ButtonType(rawValue: sender.tag)!) {
+           case .slow:
+               playSound(rate: 0.5)
+           case .fast:
+               playSound(rate: 1.5)
+           case .chipmunk:
+               playSound(pitch: 1000)
+           case .vader:
+               playSound(pitch: -1000)
+           case .echo:
+               playSound(echo: true)
+           case .reverb:
+               playSound(reverb: true)
+           }
         
+        configureUI(.playing)
     }
     
- // MARK: - Stop Sound Button Pressed
+    // MARK: - Stop Sound Button Pressed
     @IBAction func stopSoundForButton(_ sender: UIButton) {
         stopAudio()
         
     }
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-       setupAudio()
+        setupAudio()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,15 +65,5 @@ class PlaySoundViewController: UIViewController {
         
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
